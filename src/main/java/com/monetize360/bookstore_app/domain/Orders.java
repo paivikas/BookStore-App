@@ -1,5 +1,6 @@
 package com.monetize360.bookstore_app.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -17,11 +18,11 @@ public class Orders {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID orderId;
-
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "userId")
     private Users users;
-
+    @JsonIgnore
     @OneToMany(mappedBy = "orders", cascade = CascadeType.ALL)
     private List<Book> books;
 

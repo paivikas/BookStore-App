@@ -1,5 +1,6 @@
 package com.monetize360.bookstore_app.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -25,7 +26,7 @@ public class Users {
     private String email;
     @Column(name = "deleted")
     private boolean deleted;
-
+    @JsonIgnore
     @OneToMany(mappedBy = "users", cascade = CascadeType.ALL)
     private List<Orders> orders;
 }

@@ -21,7 +21,6 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDto insertUser(UserDto userDTO) {
         Users users = objectMapper.convertValue(userDTO, Users.class);
-        users.setUserId(UUID.randomUUID());
         users = userRepository.save(users);
         return objectMapper.convertValue(users, UserDto.class);
 
@@ -29,7 +28,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDto updateUser(UserDto userDTO) {
-        Users users = userRepository.findById(userDTO.getUserID()).orElseThrow(() -> new RuntimeException("Users not found"));
+        Users users = userRepository.findById(userDTO.getUserId()).orElseThrow(() -> new RuntimeException("Users not found"));
         users.setName(userDTO.getName());
         users.setEmail(userDTO.getEmail());
         users.setPassword(userDTO.getPassword());

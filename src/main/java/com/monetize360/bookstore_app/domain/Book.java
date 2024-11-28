@@ -1,5 +1,6 @@
 package com.monetize360.bookstore_app.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -22,7 +23,7 @@ public class Book {
     private float price;
     @Column(name = "deleted")
     private boolean deleted;
-
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "orderId")
     private Orders orders;
