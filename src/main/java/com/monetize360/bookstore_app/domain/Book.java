@@ -25,5 +25,5 @@ public class Book {
 
     @ManyToOne
     @JoinColumn(name = "orderId")
-    private Orders order;
+    private Orders orders;
 }
