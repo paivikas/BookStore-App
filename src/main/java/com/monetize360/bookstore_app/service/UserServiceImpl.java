@@ -3,7 +3,7 @@ package com.monetize360.bookstore_app.service;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.monetize360.bookstore_app.domain.User;
 import com.monetize360.bookstore_app.dto.UserDto;
-import com.monetize360.bookstore_app.repository.UserRepository;
+import com.monetize360.bookstore_app.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Optional;
@@ -46,9 +46,9 @@ public class UserServiceImpl implements UserService {
     public void deleteUser(UUID id) {
         Optional<User> optionalUser = userRepository.findById(id);
         if (optionalUser.isPresent()) {
-            User contact = optionalContact.get();
-            contact.setDeleted(true);
-            contactRepository.save(contact);
+            User user = optionalUser.get();
+            user.setDeleted(true);
+            userRepository.save(user);
         } else {
             throw new RuntimeException("Contact not found");
         }
