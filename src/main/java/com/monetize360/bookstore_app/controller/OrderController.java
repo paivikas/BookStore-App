@@ -38,13 +38,5 @@ public class OrderController {
         }
 
     }
-
-//    @DeleteMapping("/delete/{id}")
-//    public ResponseEntity<OrderDto> deleteContact(@PathVariable("id")UUID id){
-//
-//        orderService.deleteContact(id);
-//        return ResponseEntity.noContent().build();
-//
-//    }
 }
 
