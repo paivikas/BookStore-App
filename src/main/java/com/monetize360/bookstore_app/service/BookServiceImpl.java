@@ -5,10 +5,12 @@ import com.monetize360.bookstore_app.domain.Book;
 import com.monetize360.bookstore_app.dto.BookDto;
 import com.monetize360.bookstore_app.repositories.BookRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 import java.util.UUID;
 
+@Service
 public class BookServiceImpl implements BookService{
     @Autowired
     private BookRepository bookRepository;

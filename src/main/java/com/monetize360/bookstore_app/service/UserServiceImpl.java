@@ -5,10 +5,12 @@ import com.monetize360.bookstore_app.domain.Users;
 import com.monetize360.bookstore_app.dto.UserDto;
 import com.monetize360.bookstore_app.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 import java.util.UUID;
 
+@Service
 public class UserServiceImpl implements UserService {
     @Autowired
     private UserRepository userRepository;

@@ -6,10 +6,12 @@ import com.monetize360.bookstore_app.dto.BookDto;
 import com.monetize360.bookstore_app.dto.OrderDto;
 import com.monetize360.bookstore_app.repositories.OrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 import java.util.UUID;
 
+@Service
 public class OrderServiceImpl implements OrderService {
     @Autowired
     private ObjectMapper objectMapper;
