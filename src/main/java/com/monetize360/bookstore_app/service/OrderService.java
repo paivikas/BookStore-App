@@ -7,5 +7,5 @@ import java.util.UUID;
 
 public interface OrderService {
     OrderDto insertOrder(OrderDto orderDTO);
-    Optional<OrderDto> getOrderById(UUID id);
+    OrderDto getOrderById(UUID id);
 }
