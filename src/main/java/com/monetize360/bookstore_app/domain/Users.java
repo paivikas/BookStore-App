@@ -3,27 +3,29 @@ package com.monetize360.bookstore_app.domain;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.List;
 import java.util.UUID;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 @Entity
-@Table(name = "book")
-public class Book {
+@Table(name = "users")
+public class Users {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    private UUID bookId;
-
+    private UUID userId;
     @Column(name = "name")
     private String name;
-    @Column(name = "price")
-    private float price;
+    @Column(name = "password")
+    private String password;
+    @Column(name = "email")
+    private String email;
     @Column(name = "deleted")
     private boolean deleted;
 
-    @ManyToOne
-    @JoinColumn(name = "orderId")
-    private Orders order;
+    @OneToMany(mappedBy = "users", cascade = CascadeType.ALL)
+    private List<Orders> orders;
 }
