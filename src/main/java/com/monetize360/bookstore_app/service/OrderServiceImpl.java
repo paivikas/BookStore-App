@@ -17,6 +17,7 @@ public class OrderServiceImpl implements OrderService {
     private ObjectMapper objectMapper;
     @Autowired
     private OrderRepository orderRepository;
+
     @Override
     public OrderDto insertOrder(OrderDto orderDTO) {
         Orders order = objectMapper.convertValue(orderDTO, Orders.class);
@@ -36,8 +37,10 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public Optional<OrderDto> getOrderById(UUID id) {
-        return orderRepository.findById(id).map(order -> objectMapper.convertValue(order, OrderDto.class));
+    public OrderDto getOrderById(UUID id) {
+        return orderRepository.findById(id)
+                .map(contact -> objectMapper.convertValue(contact, OrderDto.class))
+                .orElse(null);
     }
 
 }
