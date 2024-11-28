@@ -39,7 +39,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Optional<UserDto> getUserById(UUID id) {
-        return userRepository.findById(id).map(contact -> objectMapper.convertValue(contact, UserDto.class));
+        return userRepository.findById(id).map(user -> objectMapper.convertValue(user, UserDto.class));
     }
 
     @Override
@@ -50,7 +50,7 @@ public class UserServiceImpl implements UserService {
             user.setDeleted(true);
             userRepository.save(user);
         } else {
-            throw new RuntimeException("Contact not found");
+            throw new RuntimeException("User not found");
         }
     }
 }
