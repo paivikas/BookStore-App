@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -26,10 +27,10 @@ public class OrderController {
 
 
 
-    @GetMapping("/get/{id}")
-    public ResponseEntity<OrderDto> getContact(@PathVariable("id") UUID id){
+    @GetMapping("/get/{email}")
+    public ResponseEntity<List<OrderDto>> getContact(@PathVariable("email") String email){
 
-        OrderDto orders = orderService.getOrderById(id);
+        List<OrderDto> orders = orderService.getOrderByEmail(email);
         if(orders!=null) {
             return new ResponseEntity<>(orders, HttpStatus.FOUND);
         }
