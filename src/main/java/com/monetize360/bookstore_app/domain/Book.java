@@ -16,7 +16,6 @@ public class Book {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID bookId;
-
     @Column(name = "name")
     private String name;
     @Column(name = "price")

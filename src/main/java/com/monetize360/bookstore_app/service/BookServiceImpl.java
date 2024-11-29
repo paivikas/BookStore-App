@@ -20,7 +20,6 @@ public class BookServiceImpl implements BookService{
     @Override
     public BookDto insertBook(BookDto bookDTO) {
         Book book = objectMapper.convertValue(bookDTO, Book.class);
-        book.setBookId(UUID.randomUUID());
         book = bookRepository.save(book);
         return objectMapper.convertValue(book, BookDto.class);
     }

@@ -18,10 +18,7 @@ public class Orders {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID orderId;
-    @JsonIgnore
-    @ManyToOne
-    @JoinColumn(name = "userId")
-    private Users users;
+    private String userEmail;
     @JsonIgnore
     @OneToMany(mappedBy = "orders", cascade = CascadeType.ALL)
     private List<Book> books;

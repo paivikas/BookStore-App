@@ -11,4 +11,5 @@ public class BookDto {
     private UUID bookId;
     private String name;
     private float price;
+    private boolean deleted;
 }
