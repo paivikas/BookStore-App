@@ -1,9 +1,11 @@
 package com.monetize360.bookstore_app.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
 import com.monetize360.bookstore_app.domain.Users;
 import com.monetize360.bookstore_app.dto.UserDto;
 import com.monetize360.bookstore_app.repositories.UserRepository;
+import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +19,10 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private ObjectMapper objectMapper;
+    @PostConstruct
+    public void init() {
+        objectMapper.registerModule(new Jdk8Module());
+    }
 
     @Override
     public UserDto insertUser(UserDto userDTO) {
