@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.List;
 import java.util.UUID;
 @Data
 @NoArgsConstructor
@@ -13,17 +14,21 @@ import java.util.UUID;
 @Table(name = "book")
 public class Book {
 
+
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID bookId;
+
     @Column(name = "name")
     private String name;
+
     @Column(name = "price")
     private float price;
+
     @Column(name = "deleted")
     private boolean deleted;
+
     @JsonIgnore
-    @ManyToOne
-    @JoinColumn(name = "orderId")
-    private Orders orders;
+    @ManyToMany(mappedBy = "books")
+    private List<Orders> orders;
 }

@@ -11,8 +11,8 @@ import java.util.UUID;
 @Setter
 public class OrderDto {
 
-    private String userEmail;
-    List<BookDto> books;
     private UUID orderId;
+    private String userEmail;
+    private List<BookDto> books;
     private float total;
 }
