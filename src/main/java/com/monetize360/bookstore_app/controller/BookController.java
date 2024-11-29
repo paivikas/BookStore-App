@@ -34,15 +34,19 @@ public class BookController {
     }
 
     @GetMapping("/get/{id}")
-    public ResponseEntity<Optional<BookDto>> getBook(@PathVariable("id") UUID id) {
-        Optional<BookDto> bookDto = bookService.getBookById(id);
-        return ResponseEntity.ok(bookDto);
+    public ResponseEntity<BookDto> getBookById(@PathVariable UUID id) {
+        try {
+            BookDto bookDto = bookService.getBookById(id);
+            return ResponseEntity.ok(bookDto);
+        } catch (RuntimeException ex) {
+            return ResponseEntity.notFound().build();
+        }
     }
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<Optional<BookDto>> deleteBook(@PathVariable("id") UUID id) {
+    public ResponseEntity<BookDto> deleteBook(@PathVariable("id") UUID id) {
         bookService.deleteBook(id);
-        Optional<BookDto> bookDto = bookService.getBookById(id);
+        BookDto bookDto = bookService.getBookById(id);
         return ResponseEntity.ok(bookDto);
     }
 }

@@ -34,8 +34,11 @@ public class BookServiceImpl implements BookService{
     }
 
     @Override
-    public Optional<BookDto> getBookById(UUID id) {
-        return bookRepository.findById(id).map(book -> objectMapper.convertValue(book, BookDto.class));
+    public BookDto getBookById(UUID id) {
+        Book book = bookRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Book not found with ID: " + id));
+
+        return objectMapper.convertValue(book, BookDto.class);
     }
 
     @Override

@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 public class OrderServiceImpl implements OrderService {
@@ -26,38 +27,7 @@ public class OrderServiceImpl implements OrderService {
     @Autowired
     private ObjectMapper objectMapper;
 
-    @Override
-    public OrderDto insertOrder(OrderDto orderDto) {
-        Orders order = objectMapper.convertValue(orderDto, Orders.class);
 
-        // Optional: Use bookRepository to check if the book exists in the database before saving it
-        if (orderDto.getBooks() != null) {
-            List<Book> books = orderDto.getBooks().stream()
-                    .map(bookDto -> {
-                        Book book = objectMapper.convertValue(bookDto, Book.class);
-                        book.setOrders(order); // Set the order reference
-
-                        // Check if book exists in the database (example)
-                        Optional<Book> existingBook = bookRepository.findById(book.getBookId());
-                        if (existingBook.isPresent()) {
-                            book = existingBook.get(); // Use the existing book if found
-                        }
-
-                        return book;
-                    })
-                    .toList();
-            order.setBooks(books); // Set the books in the order
-        }
-
-        // Calculate the total price and set it on the order
-        order.setTotal(calculateTotalPrice(orderDto));
-
-        // Save the order in the repository
-        Orders savedOrder = orderRepository.save(order);
-
-        // Convert saved order back to OrderDto and return it
-        return objectMapper.convertValue(savedOrder, OrderDto.class);
-    }
 
 
     public float calculateTotalPrice(OrderDto orderDTO) {
@@ -66,13 +36,54 @@ public class OrderServiceImpl implements OrderService {
                 .map(BookDto::getPrice)
                 .reduce(0.0f, Float::sum);
     }
-
     @Override
-    public List<OrderDto> getOrderByEmail(String email) {
-        List<Orders> orders = orderRepository.findByUserEmail(email);
-        return orders.stream()
-                .map(order -> objectMapper.convertValue(order, OrderDto.class))
-                .toList();
+    public OrderDto insertOrder(OrderDto orderDto) {
+        Orders order = new Orders();
+        order.setUserEmail(orderDto.getUserEmail());
+        order.setTotal(calculateTotalPrice(orderDto));
+
+        // Convert BookDto to Book entities
+        List<Book> books = orderDto.getBooks().stream()
+                .map(bookDto -> bookRepository.findById(bookDto.getBookId()).orElseThrow(() -> new RuntimeException("Book not found")))
+                .collect(Collectors.toList());
+
+        order.setBooks(books);
+
+        Orders savedOrder = orderRepository.save(order);
+
+        return mapToDto(savedOrder);
+    }
+
+    private OrderDto mapToDto(Orders order) {
+        OrderDto orderDto = new OrderDto();
+        orderDto.setOrderId(order.getOrderId());
+        orderDto.setUserEmail(order.getUserEmail());
+        orderDto.setTotal(order.getTotal());
+
+        List<BookDto> bookDtos = order.getBooks().stream()
+                .map(book -> {
+                    BookDto bookDto = new BookDto();
+                    bookDto.setBookId(book.getBookId());
+                    bookDto.setName(book.getName());
+                    bookDto.setPrice(book.getPrice());
+                    bookDto.setDeleted(book.isDeleted());
+                    return bookDto;
+                }).collect(Collectors.toList());
+
+        orderDto.setBooks(bookDtos);
+        return orderDto;
+    }
+    @Override
+    public List<OrderDto> getOrderByEmail(String userEmail) {
+        List<Orders> ordersList = orderRepository.findByUserEmail(userEmail);
+
+        if (ordersList.isEmpty()) {
+            throw new RuntimeException("No orders found for user: " + userEmail);
+        }
+
+        return ordersList.stream()
+                .map(this::mapToDto)
+                .collect(Collectors.toList());
     }
 
 

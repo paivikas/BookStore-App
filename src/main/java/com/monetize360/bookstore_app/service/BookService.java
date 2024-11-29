@@ -8,6 +8,6 @@ import java.util.UUID;
 public interface BookService {
     BookDto insertBook(BookDto bookDTO);
     BookDto updateBook(BookDto bookDTO);
-    Optional<BookDto> getBookById(UUID id);
+    BookDto getBookById(UUID id);
     void deleteBook(UUID id);
 }
